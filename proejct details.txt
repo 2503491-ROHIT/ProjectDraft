@@ -1,0 +1,256 @@
+Frontend HTML Structure & Role-Based Workflow
+The UI should be task-oriented, meaning every role should immediately see the work assigned to them on their dashboard. Users should not have to search for records to continue the workflow.
+frontend/
+│
+├── index.html
+├── register.html
+│
+├── fragments/
+│     navbar.html
+│     footer.html
+│     sidebar-admin.html
+│     sidebar-customer.html
+│     sidebar-loan-officer.html
+│     sidebar-credit-analyst.html
+│     sidebar-underwriter.html
+│     sidebar-collection-agent.html
+│
+├── pages/
+│
+│── admin/
+│     dashboard.html
+│     user-management.html
+│     customer-management.html
+│     loan-monitoring.html
+│     credit-monitoring.html
+│     repayment-monitoring.html
+│     collection-management.html
+│     reports.html
+│     profile.html
+│
+│── customer/
+│     dashboard.html
+│     profile.html
+│     kyc.html
+│     loan-application.html
+│     application-status.html
+│     credit-score.html
+│     repayment-schedule.html
+│     payment-history.html
+│
+│── loan-officer/
+│     dashboard.html
+│     pending-kyc-verification.html
+│     pending-loan-applications.html
+│     application-review.html
+│     eligibility-assessment.html
+│     approved-loans.html
+│     disbursement.html
+│     profile.html
+│
+│── credit-analyst/
+│     dashboard.html
+│     pending-credit-evaluations.html
+│     credit-evaluation.html
+│     bureau-score.html
+│     risk-assessment.html
+│     completed-evaluations.html
+│     profile.html
+│
+│── underwriter/
+│     dashboard.html
+│     pending-approvals.html
+│     application-review.html
+│     loan-decision.html
+│     approved-loans.html
+│     rejected-loans.html
+│     profile.html
+│
+│── collection-agent/
+│     dashboard.html
+│     assigned-cases.html
+│     recovery-actions.html
+│     follow-up-history.html
+│     recovered-cases.html
+│     profile.html
+│
+├── css/
+│     styles.css
+│
+├── js/
+│     api.js
+│     auth.js
+│     login.js
+│     register.js
+│     dashboard.js
+│     customer.js
+│     loan.js
+│     credit.js
+│     disbursement.js
+│     collection.js
+│     profile.js
+│     validation.js
+│     charts.js
+│     sidebar.js
+│     navbar.js
+│     logout.js
+│
+Role Responsibilities & UI Flow
+ADMIN
+Responsibilities
+Manage employee accounts.
+Assign and update user roles.
+Activate/Deactivate users.
+Monitor customers, loans, repayments, and collections.
+Assign or reassign delinquent cases to Collection Agents.
+View reports and audit logs.
+Dashboard
+Show directly:
+Pending Collection Cases to Assign
+Total Customers
+Total Loan Applications
+Approved Loans
+Active Loans
+Overdue Loans
+Recovery Statistics
+CUSTOMER
+Responsibilities
+Register and login.
+Complete KYC.
+Apply for a loan.
+Track application status.
+View credit score.
+View repayment schedule.
+Pay EMIs.
+View payment history.
+Dashboard
+Show directly:
+KYC Status
+Active Loan
+Current Application Status
+Next EMI
+Outstanding Balance
+Recent Payments
+LOAN OFFICER
+Responsibilities
+Review newly submitted KYC requests.
+Verify KYC documents.
+Review newly submitted loan applications.
+Perform eligibility assessment.
+Approve initial verification.
+Forward eligible applications to the Credit Analyst.
+Reject incomplete applications.
+After Underwriter approval, execute loan disbursement through the Disbursement Service.
+Dashboard
+Show directly:
+Pending KYC Verification
+New Loan Applications
+Applications Waiting for Eligibility Check
+Applications Ready to Forward to Credit Analyst
+Loans Approved by Underwriter Waiting for Disbursement
+Recently Disbursed Loans
+CREDIT ANALYST
+Responsibilities
+Review applications forwarded by the Loan Officer.
+Fetch bureau score.
+Calculate internal score.
+Evaluate customer risk.
+Assign risk grade.
+Add evaluation remarks.
+Forward evaluated applications to the Underwriter.
+Dashboard
+Show directly:
+Applications Waiting for Credit Evaluation
+High Risk Applications
+Medium Risk Applications
+Low Risk Applications
+Recently Evaluated Applications
+UNDERWRITER
+Responsibilities
+Review applications evaluated by the Credit Analyst.
+Perform final loan assessment.
+Approve or reject loans.
+Set approved amount.
+Set interest rate.
+Set tenure.
+Forward approved loans to the Loan Officer for disbursement.
+Dashboard
+Show directly:
+Applications Awaiting Final Approval
+Approved Loans
+Rejected Loans
+Recently Processed Applications
+COLLECTION AGENT
+Responsibilities
+View assigned delinquent accounts.
+Contact customers.
+Record recovery actions.
+Update recovery status.
+Record payment commitments.
+Close recovered cases.
+Recommend escalation or write-off.
+Dashboard
+Show directly:
+Newly Assigned Recovery Cases
+Today's Follow-ups
+Customers to Contact Today
+Pending Recovery Actions
+Recovered Cases
+Overdue Accounts
+Complete Workflow
+Customer registers and completes KYC.
+KYC request appears automatically in the Loan Officer Dashboard.
+Loan Officer verifies KYC.
+Customer submits a loan application.
+The loan application appears automatically in the Loan Officer Dashboard.
+Loan Officer reviews the application and performs the eligibility assessment.
+Eligible applications are forwarded to the Credit Analyst.
+The application appears automatically in the Credit Analyst Dashboard.
+Credit Analyst evaluates the application and forwards it to the Underwriter.
+The application appears automatically in the Underwriter Dashboard.
+Underwriter approves or rejects the application.
+Approved loans appear automatically in the Loan Officer Dashboard for disbursement.
+Loan Officer initiates disbursement through the Disbursement Service, which generates the repayment schedule.
+Customer pays EMIs.
+If an EMI becomes overdue, the Collection Service creates a delinquency case.
+The case appears in the Admin Dashboard for assignment.
+Admin assigns the case to a Collection Agent.
+The assigned case appears automatically in the Collection Agent Dashboard for recovery.
+
+
+NOTE: Admin should perform and scan delinwuncy account and then assign cases to avaliable collection agent 
+in profile.html show user data 
+
+
+all should be dyanmic 
+
+intermicroservice communication handle porpeprp using feigncleint 
+
+make chnages accoridng to thus in both frontend and backend, 
+
+roles  and resposnsibilitses:
+
+Role
+Responsibilities
+ADMIN
+Manage users, assign roles, activate/deactivate accounts, assign/reassign collection cases, monitor the system, view reports and audit logs.
+CUSTOMER
+Register, login, complete KYC, update profile, apply for loans, track application status, view credit score, view EMI schedule, make EMI payments, view repayment history.
+LOAN_OFFICER
+Verify KYC and documents, validate eligibility, review applications, request additional documents, execute loan disbursement by invoking the Disbursement Service after final approval, generate the EMI schedule, and update the loan status to DISBURSED.
+CREDIT_ANALYST
+Fetch bureau score, calculate internal credit score, assess repayment capacity, assign risk grade, add remarks, and forward applications to the Underwriter.
+UNDERWRITER
+Review the complete application, make the final approval or rejection, determine the sanctioned amount, interest rate, and tenure, and forward approved loans for disbursement.
+COLLECTION_AGENT
+Handle assigned delinquent accounts, contact customers, record recovery actions, update recovery status, close recovered cases, and recommend escalation or write-off.
+| **Role**             | **Responsibilities**                                                                                                                                                                                                                                                |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ADMIN**            | Manage users, assign roles, activate/deactivate accounts, assign/reassign collection cases, monitor the system, view reports and audit logs.                                                                                                                        |
+| **CUSTOMER**         | Register, login, complete KYC, update profile, apply for loans, track application status, view credit score, view EMI schedule, make EMI payments, view repayment history.                                                                                          |
+| **LOAN_OFFICER**     | Verify KYC and documents, validate eligibility, review applications, request additional documents, **execute loan disbursement by invoking the Disbursement Service after final approval**, generate the EMI schedule, and update the loan status to **DISBURSED**. |
+| **CREDIT_ANALYST**   | Fetch bureau score, calculate internal credit score, assess repayment capacity, assign risk grade, add remarks, and forward applications to the Underwriter.                                                                                                        |
+| **UNDERWRITER**      | Review the complete application, make the final approval or rejection, determine the sanctioned amount, interest rate, and tenure, and forward approved loans for disbursement.                                                                                     |
+| **COLLECTION_AGENT** | Handle assigned delinquent accounts, contact customers, record recovery actions, update recovery status, close recovered cases, and recommend escalation or write-off.                                                                                              |
+
+change everyhting according to this stricityly adhere to te discription, modify whole porject 
